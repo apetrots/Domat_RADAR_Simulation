@@ -28,8 +28,8 @@ paramFreeSpace.maxDist = 10; % meters - Maximum one way distance
 paramGeometry.RadarVel = [0; 0; 0]; % meters - Radars position
 paramGeometry.RadarPos = [0; 0; 0]; % meters/sec - Radars velocity
 
-paramGeometry.TargetVel = [2; 0; 0]; % meters - Targets position
-paramGeometry.TargetPos = [7; 0; 0]; % meters/sec - Targets velocity
+paramGeometry.TargetVel = [2.5; 0; 0]; % meters - Targets position
+paramGeometry.TargetPos = [5.25; 0; 0]; % meters/sec - Targets velocity
 paramGeometry.TargetArea = 5; % m^2 -  Mean radar cross section 
 
 %Reciver Parameters
