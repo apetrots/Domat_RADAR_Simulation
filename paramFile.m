@@ -12,8 +12,10 @@ paramWaveformFMCWM.T = 5e-6; % Sec - Sampling Time
 paramWaveformFMCWM.Fc = 77e9; % Hertz - Carrier Frequecy 
 paramWaveformFMCWM.NumSamplesSweep = paramWaveformFMCWM.T * paramWaveformFMCWM.Fs;
 paramWaveformFMCWM.Slope = paramWaveformFMCWM.Bw/paramWaveformFMCWM.T;
+paramWaveformFMCWM.PRF = 1/paramWaveformFMCWM.T;
+paramWaveformFMCWM.NumSweeps = 24;
 
-paramWaveformFMCWM.NumSweeps = 64;
+paramWaveformFMCWM.lambda = c/paramWaveformFMCWM.Fc;
 
 %Transmiter Parameters
 paramTransmiter.P = 0.00316; % Watts - Power
@@ -29,8 +31,8 @@ paramFreeSpace.maxDist = 200; % meters - Maximum one way distance
 paramGeometry.RadarVel = [0; 0; 0]; % meters - Radars position
 paramGeometry.RadarPos = [0; 0; 0]; % meters/sec - Radars velocity
 
-paramGeometry.TargetVel = [4; 0; 0]; % 
-paramGeometry.TargetPos = [9; 0; 0]; %
+paramGeometry.TargetVel = [-1; 0; 0]; % -8 to 8  m/s
+paramGeometry.TargetPos = [10; 0; 0]; %  0 to 10  m
 paramGeometry.TargetArea = 5; % m^2 -  Mean radar cross section 
 
 %Reciver Parameters
@@ -70,12 +72,12 @@ idxDopCUT = numCUTDop:(numDop-numCUTDop+1);
 paramDetection.NumCUTIdx = numel(idxRngCUT).*numel(idxDopCUT); 
 
 %R/D Ploting
-%paramDetection.RngLims = [rngVec(idxRangeProcessMin) rngVec(idxRangeProcessMax)]; % m
-paramDetection.RngLims = [0 10];
-dopVec = fftshiftfreqgrid(paramDetection.NumDop,paramRadarWaveformFMCWMT.PRF); % Hz
-speedVec = sort(-dop2speed(dopVec,paramRadarHardwareFMCWMT.lambda)/2); % m/s
-%paramDetection.SpeedLims = [speedVec(1) speedVec(end)]; % m/s
-paramDetection.SpeedLims = [-3 3];
+paramDetection.RngLims = [rngVec(idxRangeProcessMin) rngVec(idxRangeProcessMax)]; % m
+%paramDetection.RngLims = [0 10];
+dopVec = fftshiftfreqgrid(paramDetection.NumDop,paramWaveformFMCWM.PRF); % Hz
+speedVec = sort(-dop2speed(dopVec,paramWaveformFMCWM.lambda)/2); % m/s
+paramDetection.SpeedLims = [speedVec(1) speedVec(end)]; % m/s
+%paramDetection.SpeedLims = [-3 3];
 
 function freq_grid = fftshiftfreqgrid(N,Fs)
 
